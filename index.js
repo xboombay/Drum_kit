@@ -22,26 +22,35 @@ for (var i = 0; document.querySelectorAll(".drum").length ; i++ ) {
 
 //document.querySelectorAll("button").length
 
-for (var i = 0 ; i < document.querySelectorAll(".drum").length ; i++) {
-  document.querySelectorAll(".drum")[i].addEventListener("click", function () {
-
-    this.style.color = "white";
-
-  });
-}
-
 for (var i = 0; i < document.querySelectorAll("button").length; i++) {
   document.querySelectorAll("button")[i].addEventListener("click", handleClick);
 }
 
+
+document.addEventListener("keydown", function(event) {
+  var key = event.key;
+  var button = document.querySelector(".drum." + key);
+
+  if (button) {
+    button.classList.add("pressed");
+    setTimeout(function() {
+      button.classList.remove("pressed");
+    }, 200);
+
+    playSound(key);
+  }
+});
+
 function handleClick() {
   var buttonInnerHTML = this.innerHTML;
   playSound(buttonInnerHTML);
-}
 
-document.addEventListener("keydown", function(event) {
-  playSound(event.key);
-});
+  this.classList.add("pressed");
+
+  setTimeout(function() {
+    this.classList.remove("pressed");
+  }.bind(this), 200);
+}
 
 function playSound(key) {
   switch (key) {
@@ -75,6 +84,7 @@ function playSound(key) {
       break;
   }
 }
+
 
 
 // document.querySelector("button").addEventListener("click", () => alert("Clicked"));
